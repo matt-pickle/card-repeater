@@ -1,0 +1,184 @@
+<div class="cr-grid" id="{{ name }}">
+   {% for card in module.content %}
+      <div class="cr-card"
+         id="cr-card-{{ loop.index }}"
+         {% if card.image_type == "background-image" %}
+            style="background-image: url('{{ card.background_image.src }}'); background-size: cover; background-position: center;"
+         {% endif %}
+      >
+         {% if card.image_type == "image" %}
+            {% set sizeAttrs = 'width="{{ card.image.width }}" height="{{ card.image.height }}"' %}
+            {% if card.image.size_type == 'auto' %}
+               {% set sizeAttrs = 'width="{{ card.image.width }}" height="{{ card.image.height }}" style="max-width: 100%; height: auto;"' %}
+            {% elif card.image.size_type == 'auto_custom_max' %}
+               {% set sizeAttrs = 'width="{{ card.image.max_width }}" height="{{ card.image.max_height }}" style="max-width: 100%; height: auto;"' %}
+            {% endif %}
+            {% set loadingAttr = card.image.loading != 'disabled' ? 'loading="{{ card.image.loading }}"' : '' %}
+            <img src="{{ card.image.src }}" alt="{{ card.image.alt }}" {{ loadingAttr }} {{ sizeAttrs }}>
+         {% endif %}
+         {% if card.image_type == "icon" %}
+            {% require_css %}
+               <style>
+                  {% scope_css %}
+                     .cr-icon-{{ loop.index }} svg {
+                        fill: {{ card.icon_color.color }};
+                        opacity: {{ card.icon_color.opacity|multiply(.01) }}
+                     }
+                  {% end_scope_css %}
+               </style>
+            {% end_require_css %}
+
+            <div class="cr-icon cr-icon-{{ loop.index }}">
+               {% icon
+                  name="{{ card.icon.name }}",
+                  style="{{ card.icon.type }}",
+                  unicode="{{ card.icon.unicode }}",
+                  icon_set="{{ card.icon.icon_set }}",
+                  height="{{ card.icon_height }}"
+               %}
+            </div>
+         {% endif %}
+         <div class="cr-text-section">
+            <div class="cr-rich-text">{{ card.rich_text }}</div>
+            {% if card.button_type == "button" %}
+               {% require_css %}
+                  <style>
+                     #{{ name }} .cr-button-{{ loop.index }} {
+                        {{ card.button.font.css }}
+                        text-transform: {{ card.button.text_transform }};
+                        letter-spacing: {{ card.button.letter_spacing }}px;
+                        background-color: rgba({{ card.button.button_color.color|convert_rgb }}, {{ card.button.button_color.opacity|multiply(.01) }});
+                        padding: {{ card.button.padding_top_bottom }}px {{ card.button.padding_left_right }}px;
+                        border: {{ card.button.border_width }}px solid rgba({{ card.button.border_color.color|convert_rgb }}, {{ card.button.border_color.opacity|multiply(.01) }});
+                        border-radius: {{ card.button.border_radius }}px;
+                        {% if card.button.shadow %}
+                           box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+                        {% endif %}
+                     }
+
+                     #{{ name }} .cr-button-{{ loop.index }}:hover {
+                        color: {{ card.button.text_hover_color.color }};
+                        background-color: rgba({{ card.button.button_hover_color.color|convert_rgb }}, {{ card.button.button_hover_color.opacity|multiply(.01) }});
+                        border: {{ card.button.border_width }}px solid rgba({{ card.button.border_hover_color.color|convert_rgb }}, {{ card.button.border_hover_color.opacity|multiply(.01) }});
+                     }
+                  </style>
+               {% end_require_css %}
+
+               {% set href = card.button.link.url.href %}
+               {% if card.button.link.url.type is equalto "EMAIL_ADDRESS" %}
+                  {% set href = "mailto:" + href %}
+               {% endif %}
+               <a 
+                  class="cr-button cr-button-{{ loop.index }} button hs-button"
+                  href="{{ href }}"
+                  {% if card.button.link.open_in_new_tab %}target="_blank"{% endif %}
+                  {% if card.button.link.rel %}rel="{{ card.button.link.rel }}"{% endif %}
+               >
+                  {{ card.button.text }}
+               </a>
+            {% elif card.button_type == "cta" %}
+               <div class="cr-cta">
+                  {% cta label="Select a CTA" guid="{{ card.cta }}" %}
+               </div>
+            {% elif card.button_type == "text-link" %}
+               {% require_css %}
+                  <style>
+                     {% scope_css %}
+                        .cr-link-{{ loop.index }} {
+                           color: {{ card.text_link.color.color }};
+                        }
+         
+                        .cr-link-{{ loop.index }}:hover {
+                           color: {{ card.text_link.hover_color.color }};
+                        }
+                     {% end_scope_css %}
+                  </style>
+               {% end_require_css %}
+
+               {% set href = card.text_link.link.url.href %}
+               {% if card.text_link.link.url.type is equalto "EMAIL_ADDRESS" %}
+                  {% set href = "mailto:" + href %}
+               {% endif %}
+               <a 
+                  class="cr-link cr-link-{{ loop.index }}"
+                  href="{{ href }}"
+                  {% if card.text_link.link.open_in_new_tab %}target="_blank"{% endif %}
+                  {% if card.text_link.link.rel %}rel="{{ card.text_link.link.rel }}"{% endif %}
+               >
+                  {{ card.text_link.text }}
+               </a>
+            {% endif %}
+         </div>
+      </div>
+      {% if card.background_color.color %}
+         {% require_css %}
+            <style>
+               {% scope_css %}
+                  #cr-card-{{ loop.index }} {
+                     background-color: rgba({{ card.background_color.color|convert_rgb }}, {{ card.background_color.opacity|multiply(.01) }}) !important;
+                  }
+               {% end_scope_css %}
+            </style>
+         {% end_require_css %}
+      {% endif %}
+   {% endfor %}
+</div>
+
+{% require_css %}
+   <style>
+      {% scope_css %}
+         .cr-grid {
+            display: grid;
+            grid-template-columns: repeat({{ module.style.layout.columns_desktop }}, 1fr);
+            grid-gap: {{ module.style.layout.margin }}px;
+         }
+
+         .cr-card {
+            background-color: rgba({{ module.style.cards.background_color.color|convert_rgb }}, {{ module.style.cards.background_color.opacity|multiply(.01) }});
+            {{ module.style.cards.padding.css }}
+            border-style: solid;
+            border-color: rgba({{ module.style.cards.border_color.color|convert_rgb }}, {{ module.style.cards.border_color.opacity|multiply(.01) }});
+            border-width: {{ module.style.cards.border_thickness }}px;
+            border-radius: {{ module.style.cards.border_radius }}px;
+            {% if module.style.cards.shadow %}
+               box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+            {% endif %}
+            {% if module.style.cards.alignment.horizontal_align == "CENTER" %}
+               align-items: center;
+            {% elif module.style.cards.alignment.horizontal_align == "LEFT" %}
+               align-items: flex-start;
+            {% else %}
+               align-items: flex-end;
+            {% endif %}
+         }
+
+         .cr-text-section {
+            {{ module.style.cards.text_padding.css }}
+         }
+
+         .cr-button,
+         .cr-link,
+         .cr-cta {
+            {% if module.style.cards.alignment.horizontal_align == "CENTER" %}
+               align-self: center;
+            {% elif module.style.cards.alignment.horizontal_align == "LEFT" %}
+               align-self: flex-start;
+            {% else %}
+               align-self: flex-end;
+            {% endif %}
+         }
+
+         @media (max-width: 900px) {
+            .cr-grid {
+               grid-template-columns: repeat({{ module.style.layout.columns_tablet }}, 1fr);
+            }
+         }
+
+         @media (max-width: 500px) {
+            .cr-grid {
+               grid-template-columns: repeat({{ module.style.layout.columns_mobile }}, 1fr);
+            }
+         }
+      {% end_scope_css %}
+   </style>
+{% end_require_css %}

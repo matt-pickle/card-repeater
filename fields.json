@@ -1,0 +1,497 @@
+[
+	{
+		"label": "Content",
+		"name": "content",
+		"type": "group",
+		"occurrence": {
+			"min": 1,
+			"max": null,
+			"default": 3,
+      "sorting_label_field": "rich_text"
+		},
+		"children": [
+      {
+        "label": "Image Type",
+        "id": "image_type",
+        "name": "image_type",
+        "type": "choice",
+        "choices": [
+          ["none", "None"],
+          ["image", "Image"],
+          ["icon", "Icon"],
+          ["background-image", "Background Image"]
+        ],
+        "default": "icon"
+      },
+			{
+				"label": "Image",
+				"name": "image",
+				"type": "image",
+				"responsive": true,
+        "show_loading": true,
+				"default": {
+					"size_type": "auto",
+          "loading": "lazy"
+				},
+        "visibility": {
+          "controlling_field": "image_type",
+          "controlling_value_regex": "image",
+          "operator": "EQUAL"
+        }
+			},
+			{
+				"label": "Icon",
+				"name": "icon",
+				"type": "icon",
+        "default": {
+          "name": "certificate",
+          "type": "SOLID"
+        },
+        "visibility": {
+          "controlling_field": "image_type",
+          "controlling_value_regex": "icon",
+          "operator": "EQUAL"
+        }
+			},
+      {
+				"label": "Icon Height",
+				"name": "icon_height",
+				"type": "number",
+        "suffix": "px",
+        "default": 50,
+        "visibility": {
+          "controlling_field": "image_type",
+          "controlling_value_regex": "icon",
+          "operator": "EQUAL"
+        }
+			},
+      {
+        "label": "Icon Color",
+        "name": "icon_color",
+        "type": "color",
+        "default": {
+          "color": "#00bbff",
+          "opacity": 100
+        },
+        "visibility": {
+          "controlling_field": "image_type",
+          "controlling_value_regex": "icon",
+          "operator": "EQUAL"
+        }
+      },
+      {
+        "label": "Background Image",
+        "name": "background_image",
+        "type": "image",
+        "resizable": false,
+        "visibility": {
+          "controlling_field": "image_type",
+          "controlling_value_regex": "background-image",
+          "operator": "EQUAL"
+        }
+      },
+			{
+				"label": "Rich Text",
+        "id": "rich_text",
+				"name": "rich_text",
+				"type": "richtext",
+        "default": "Tempor ut commodo enim occaecat deserunt excepteur excepteur voluptate."
+			},
+      {
+        "label": "Button Type",
+        "id": "button_type",
+        "name": "button_type",
+        "type": "choice",
+        "choices": [
+          ["none", "None"],
+          ["button", "Button"],
+          ["cta", "CTA"],
+          ["text-link", "Text Link"]
+        ],
+        "default": "none"
+      },
+      {
+        "label": "Button",
+        "name": "button",
+        "type": "group",
+        "visibility": {
+          "controlling_field": "button_type",
+          "controlling_value_regex": "button",
+          "operator": "EQUAL"
+        },
+        "children": [
+          {
+            "label": "Text",
+            "name": "text",
+            "type": "text",
+            "default": "Learn More"
+          },
+          {
+            "label": "Link",
+            "name": "link",
+            "type": "link"
+          },
+          {
+            "label": "Button Color",
+            "name": "button_color",
+            "type": "color"
+          },
+          {
+            "label": "Button Hover Color",
+            "name": "button_hover_color",
+            "type": "color"
+          },
+          {
+            "label": "Font",
+            "name": "font",
+            "type": "font"
+          },
+          {
+            "label": "Text Transform",
+            "name": "text_transform",
+            "type": "choice",
+            "choices": [
+              [ "none", "None"],
+              [ "uppercase", "UPPERCASE"],
+              [ "capitalize", "Capitalize"],
+              [ "lowercase", "lowercase"]
+            ]
+          },
+          {
+            "label": "Letter Spacing",
+            "name": "letter_spacing",
+            "type": "number",
+            "suffix": "px"
+          },
+          {
+            "label": "Text Hover Color",
+            "name": "text_hover_color",
+            "type": "color",
+            "visibility": {
+              "hidden_subfields": {
+                "opacity": true
+              }
+            }
+          },
+          {
+            "label": "Padding Top/Bottom",
+            "name": "padding_top_bottom",
+            "type": "number",
+            "suffix": "px"
+          },
+          {
+            "label": "Padding Left/Right",
+            "name": "padding_left_right",
+            "type": "number",
+            "suffix": "px"
+          },
+          {
+            "label": "Border Width",
+            "name": "border_width",
+            "type": "number",
+            "suffix": "px"
+          },
+          {
+            "label": "Border Color",
+            "name": "border_color",
+            "type": "color"
+          },
+          {
+            "label": "Border Hover Color",
+            "name": "border_hover_color",
+            "type": "color"
+          },
+          {
+            "label": "Border Radius",
+            "name": "border_radius",
+            "type": "number",
+            "suffix": "px"
+          },
+          {
+            "label": "Drop Shadow",
+            "name": "shadow",
+            "type": "boolean",
+            "default": false
+          }
+        ]
+      },
+      {
+        "label": "Text Link",
+        "name": "text_link",
+        "type": "group",
+        "visibility": {
+          "controlling_field": "button_type",
+          "controlling_value_regex": "text-link",
+          "operator": "EQUAL"
+        },
+        "children": [
+          {
+            "label": "Text",
+            "name": "text",
+            "type": "text",
+            "default": "Learn More >"
+          },
+          {
+            "label": "Link",
+            "name": "link",
+            "type": "link"
+          },
+          {
+            "label": "Color",
+            "name": "color",
+            "type": "color",
+            "visibility": {
+              "hidden_subfields": {
+                "opacity": true
+              }
+            }
+          },
+          {
+            "label": "Hover Color",
+            "name": "hover_color",
+            "type": "color",
+            "visibility": {
+              "hidden_subfields": {
+                "opacity": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "label": "CTA",
+        "name": "cta",
+        "type": "cta",
+        "visibility": {
+          "controlling_field": "button_type",
+          "controlling_value_regex": "cta",
+          "operator": "EQUAL"
+        }
+      },
+      {
+        "label": "Background Color",
+        "name": "background_color",
+        "type": "color",
+        "help_text": "Overrides the background color set for all cards in the Style tab."
+      }
+		],
+    "default": [
+      {
+        "image_type": "icon",
+        "icon": {
+          "name": "certificate",
+          "type": "SOLID"
+        },
+        "icon_height": 50,
+        "icon_color": {
+          "color": "#00bbff",
+          "opacity": 100
+        },
+        "rich_text": "Tempor ut commodo enim occaecat deserunt excepteur excepteur voluptate.",
+        "button_type": "none",
+        "button": {
+          "text": "Learn More"
+        },
+        "text_link": {
+          "text": "Learn More >"
+        }
+      },
+      {
+        "image_type": "icon",
+        "icon": {
+          "name": "certificate",
+          "type": "SOLID"
+        },
+        "icon_height": 50,
+        "icon_color": {
+          "color": "#00bbff",
+          "opacity": 100
+        },
+        "rich_text": "Tempor ut commodo enim occaecat deserunt excepteur excepteur voluptate.",
+        "button_type": "none",
+        "button": {
+          "text": "Learn More"
+        },
+        "text_link": {
+          "text": "Learn More >"
+        }
+      },
+      {
+        "image_type": "icon",
+        "icon": {
+          "name": "certificate",
+          "type": "SOLID"
+        },
+        "icon_height": 50,
+        "icon_color": {
+          "color": "#00bbff",
+          "opacity": 100
+        },
+        "rich_text": "Tempor ut commodo enim occaecat deserunt excepteur excepteur voluptate.",
+        "button_type": "none",
+        "button": {
+          "text": "Learn More"
+        },
+        "text_link": {
+          "text": "Learn More >"
+        }
+      }
+    ]
+	},
+	{
+		"tab": "STYLE",
+		"label": "Style",
+		"name": "style",
+		"type": "group",
+		"children": [
+      {
+        "label": "Layout",
+        "name": "layout",
+        "type": "group",
+        "children": [
+          {
+            "label": "# of Columns (Desktop)",
+            "name": "columns_desktop",
+            "type": "number",
+            "default": 3
+          },
+          {
+            "label": "# of Columns (Tablet)",
+            "name": "columns_tablet",
+            "type": "number",
+            "default": 2
+          },
+          {
+            "label": "# of Columns (Mobile)",
+            "name": "columns_mobile",
+            "type": "number",
+            "default": 1
+          },
+          {
+            "label": "Margin Between Cards",
+            "name": "margin",
+            "type": "number",
+            "suffix": "px",
+            "default": 25
+          }
+        ]
+      },
+      {
+        "label": "Cards",
+        "name": "cards",
+        "type": "group",
+        "children": [
+          {
+            "label": "Alignment",
+            "name": "alignment",
+            "type": "alignment",
+            "help_text": "Controls alignment of the top image/icon and bottom button/link/cta.",
+            "alignment_direction": "HORIZONTAL",
+            "default": {
+              "horizontal_align": "CENTER"
+            }
+          },
+          {
+            "label": "Background Color",
+            "name": "background_color",
+            "type": "color",
+            "default": {
+              "color": "#f0f0f0",
+              "opacity": 100
+            }
+          },
+          {
+            "label": "Border Color",
+            "name": "border_color",
+            "type": "color",
+            "default": {
+              "color": "#000000",
+              "opacity": 0
+            }
+          },
+          {
+            "label": "Border Thickness",
+            "name": "border_thickness",
+            "type": "number",
+            "suffix": "px",
+            "default": 0
+          },
+          {
+            "label": "Border Radius",
+            "name": "border_radius",
+            "type": "number",
+            "suffix": "px",
+            "default": 0
+          },
+          {
+            "label": "Padding (Entire Card)",
+            "name": "padding",
+            "type": "spacing",
+            "default": {
+              "padding": {
+                "top": {
+                  "value": 25,
+                  "units": "px"
+                },
+                "bottom": {
+                  "value": 25,
+                  "units": "px"
+                },
+                "left": {
+                  "value": 25,
+                  "units": "px"
+                },
+                "right": {
+                  "value": 25,
+                  "units": "px"
+                }
+              }
+            },
+            "visibility": {
+              "hidden_subfields": {
+                "margin": true
+              }
+            }
+          },
+          {
+            "label": "Padding (Text Section Only)",
+            "name": "text_padding",
+            "type": "spacing",
+            "help_text": "Includes text and bottom button/link/cta, but not the top image/icon.",
+            "default": {
+              "padding": {
+                "top": {
+                  "value": 0,
+                  "units": "px"
+                },
+                "bottom": {
+                  "value": 0,
+                  "units": "px"
+                },
+                "left": {
+                  "value": 0,
+                  "units": "px"
+                },
+                "right": {
+                  "value": 0,
+                  "units": "px"
+                }
+              }
+            },
+            "visibility": {
+              "hidden_subfields": {
+                "margin": true
+              }
+            }
+          },
+          {
+            "label": "Drop Shadow",
+            "name": "shadow",
+            "type": "boolean",
+            "default": false
+          }
+        ]
+      }
+		]
+	}
+]
