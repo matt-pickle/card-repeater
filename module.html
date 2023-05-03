@@ -136,9 +136,8 @@
          .cr-card {
             background-color: rgba({{ module.style.cards.background_color.color|convert_rgb }}, {{ module.style.cards.background_color.opacity|multiply(.01) }});
             {{ module.style.cards.padding.css }}
+            {{ module.style.cards.border.css }}
             border-style: solid;
-            border-color: rgba({{ module.style.cards.border_color.color|convert_rgb }}, {{ module.style.cards.border_color.opacity|multiply(.01) }});
-            border-width: {{ module.style.cards.border_thickness }}px;
             border-radius: {{ module.style.cards.border_radius }}px;
             {% if module.style.cards.shadow %}
                box-shadow: 0 5px 15px rgba(0,0,0,0.25);
